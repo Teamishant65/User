@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Key Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #f2f2f2; }
+        .login-container { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: 300px; }
+        h2 { text-align: center; }
+        input[type="text"] { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 3px; }
+        button { width: 100%; padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>User Key Login</h2>
+    <form id="loginForm">
+        <input type="text" id="userKey" placeholder="Enter your key" required>
+        <button type="button" onclick="login()">Login</button>
+    </form>
+</div>
+
+<script>
+    function login() {
+        const userKey = document.getElementById('userKey').value;
+        const keys = window.opener ? window.opener.generatedKeys : {}; // Access admin-generated keys
+
+        if (keys[userKey]) {
+            const currentDate = new Date();
+            const expirationDate = new Date(keys[userKey]);
+
+            if (currentDate <= expirationDate) {
+                alert("Login successful! Key is valid until " + expirationDate.toDateString());
+                // Proceed to user dashboard or desired page
+            } else {
+                alert("Key has expired. Please contact the admin.");
+            }
+        } else {
+            alert("Invalid key. Please try again.");
+        }
+    }
+</script>
+
+</body>
+</html>
